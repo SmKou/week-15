@@ -14,7 +14,7 @@ The value of all symbols are added, except no symbol can be more than three in a
 2. Closures and currying
 */
 
-const numeral = (c) => {
+const numeral_switch = (c) => {
     switch (c) {
         case "I":
             return 1;
@@ -32,41 +32,43 @@ const numeral = (c) => {
             return 1000;
     }
 }
-
-const roman_numerals = (str, val) => {
-    const n = numeral(str[0]);
+const roman_numerals_recurse = (str) => {
+    const n = numeral_switch(str[0]);
     if (str.length < 2)
-        return numeral(str[0])
+        return n;
 
-    const n_plus = numeral(str[1]);
-    
-    
-    if (str.length > 1) {
-        const n_plus = numeral(str[1]);
-        if (n_plus > n)
-            val -= n
-        else
-            val += n
-        return val + roman_numerals(str.substring(1), val)
-    }
+    const n_plus = numeral_switch(str[1]);
+    if (n_plus > n)
+        return roman_numerals_recurse(str.substring(1)) - n;
     else
-        return numeral(str[0])
+        return roman_numerals_recurse(str.substring(1)) + n;
 }
+
+const num_obj = { "I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000 };
+const roman_numerals_recurse_2 = (str, i) => {
+    if (i == str.length - 1)
+        return num_obj[str[i]]
+    const n_i = num_obj[str[i]];
+    const n_plus = num_obj[str[i + 1]];
+    return roman_numerals_recurse(str, i + 1) + (n_plus > n_i ? n_i * -1 : n_i);
+}
+
 
 
 
 
 
 const solutions = {
-
+    rn_1: roman_numerals_recurse,
+    rn_2: roman_numerals_recurse_2
 }
 
 const test_run = (fn) => {
-    const amounts = [25, 10, 5, 1, 499, 141];
-    const expected = [[1], [0, 1], [0, 0, 1], [0, 0, 0, 1], [19, 2, 0, 4], [5, 1, 1, 1]];
-    for (let i = 0; i < amounts.length; i++) {
-        const result = fn(amounts[i]);
-        console.log(`Expected: ${expected[i]}`, `Result: ${result}`, `Passed: ${expected[i].join('') === result.join('')}`);
+    const strings = ["III", "MMMCMXCIX", "XLVIII", "MDCLXVI", "MMMCCCXXXIII"];
+    const expected = [3, 3999, 48, 1666, 3333];
+    for (let i = 0; i < strings.length; i++) {
+        const result = fn(strings[i]);
+        console.log(`Expected: ${expected[i]}`, `Result: ${result}`, `Passed: ${expected[i] === result}`);
     }
 }
 

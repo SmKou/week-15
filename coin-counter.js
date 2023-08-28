@@ -107,12 +107,36 @@ const coin_currying = (val) => {
     return coins;
 }
 
+const coin_counter_sync = (val) => {
+    const coin_amounts = [];
+    coin_amounts.push(Math.floor(val / 25));
+    val %= 25;
+    coin_amounts.push(Math.floor(val / 10));
+    val %= 10;
+    coin_amounts.push(Math.floor(val / 5));
+    val %= 5;
+    coin_amounts.push(val);
+    return coin_amounts;
+}
 
+const coin_recurse = (val, i, arr) => {
+    if (i == arr.length)
+        return arr;
+    const n = arr[i];
+    arr[i] = Math.floor(val / n);
+    return coin_recurse(val % n, i + 1, arr);
+}
+
+const coin_counter_recurse = (val) => {
+    return coin_recurse(val, 0, [25, 10, 5, 1]);
+}
 
 const solutions = {
     cc_1: coinCounter,
     cc_2: coin_currying,
-    cc_3: coinCounterAustin
+    cc_3: coinCounterAustin,
+    cc_4: coin_counter_sync,
+    cc_5: coin_counter_recurse
 }
 
 const test_run = (fn) => {
@@ -133,5 +157,5 @@ const test_run = (fn) => {
     }
 }
 
-Object.keys(solutions).forEach(key => test_run(solutions[key]))
-// test_run(solutions["cc_1"]);
+// Object.keys(solutions).forEach(key => test_run(solutions[key]))
+test_run(solutions["cc_5"]);
