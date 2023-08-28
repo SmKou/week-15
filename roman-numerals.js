@@ -53,20 +53,36 @@ const roman_numerals_recurse_2 = (str, i) => {
     return roman_numerals_recurse(str, i + 1) + (n_plus > n_i ? n_i * -1 : n_i);
 }
 
-
-
-
+const get_numeral = (character) => (value) => (str) => {
+    let count = 0;
+    for (let i = 0; i < str.length; i++)
+        if (str[i] === character)
+            count++;
+    return value * count - (count > 3 ? value : 0);
+}
+const get_I = get_numeral("I")(1);
+const get_V = get_numeral("V")(5);
+const get_X = get_numeral("X")(10);
+const get_L = get_numeral("L")(50);
+const get_C = get_numeral("C")(100);
+const get_D = get_numeral("D")(500);
+const get_M = get_numeral("M")(1000);
+const roman_numerals_currying = (str) => {
+    return get_M(str) + get_D(str) + get_C(str) + get_L(str) + get_X(str) + get_V(str) + get_I(str);
+}
 
 
 const solutions = {
     rn_1: roman_numerals_recurse,
-    rn_2: roman_numerals_recurse_2
+    rn_2: roman_numerals_recurse_2,
+    rn_3: roman_numerals_currying
 }
 
 const test_run = (fn) => {
     const strings = ["III", "MMMCMXCIX", "XLVIII", "MDCLXVI", "MMMCCCXXXIII"];
     const expected = [3, 3999, 48, 1666, 3333];
     for (let i = 0; i < strings.length; i++) {
+        console.log(fn.name);
         const result = fn(strings[i]);
         console.log(`Expected: ${expected[i]}`, `Result: ${result}`, `Passed: ${expected[i] === result}`);
     }

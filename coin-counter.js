@@ -18,10 +18,10 @@ const coinCounterAustin = (money, remainingCoins = [
   {coin: "Nickel", value: 5, amount: 0},
   {coin: "Penny", value: 1, amount: 0} 
 ], index = 0) => {
-
+  
   // Base case, return filtered coin list
   if (money === 0 || index >= remainingCoins.length) {
-    return remainingCoins.filter(coin => coin.amount > 0)
+    return remainingCoins;
   }
 
   // assign current coin
@@ -33,9 +33,10 @@ const coinCounterAustin = (money, remainingCoins = [
   
   // update currentCoin list
   const updatedCoins = remainingCoins.map((coin, i) => {
-    if (i == index) {
+    if (i === index) {
       return {...coin, amount: amount}
     }
+    return coin;
   })
   
   return coinCounterAustin(remainingMoney, updatedCoins, index + 1 )
@@ -62,7 +63,6 @@ const coins = [
   }
   ];
 const coinCounter = (money) => {
-    // You don't need if statements to solve this problem
     console.log("Money", money);
     if (isNaN(money)) {
     return coins;
@@ -107,6 +107,51 @@ const coin_currying = (val) => {
     return coins;
 }
 
+const coin_counter_closure = () => {
+    const quarter = 25;
+    const dime = 10;
+    const nickel = 5;
+    return (val) => [
+        Math.floor(val / quarter),
+        Math.floor((val % quarter) / dime),
+        Math.floor((val % quarter % dime) / nickel),
+        val % quarter % dime % nickel
+    ];
+}
+const closure = coin_counter_closure()
+const coin_closure = (val) => closure(val)
+
+//// Coin closure GPT
+const coinClosureCounterFactory = () => {
+  const coinValues = [25, 10, 5, 1];
+  
+  const countCoins = (remainingMoney, index = 0, counts = []) => {
+    // Base case: if no more coinValues, return counts
+    if (index >= coinValues.length) {
+      return counts;
+    }
+
+    // Count the coins for the first coin type
+    const coinValue = coinValues[index];
+    const count = Math.floor(remainingMoney / coinValue);
+    const remaining = remainingMoney % coinValue;
+    
+    // Recur with the remaining coin types and remaining money
+    return countCoins(remaining, index + 1, [...counts, count]);
+  };
+  
+  return countCoins;
+};
+
+// Initialize the coin counter
+const coinClosureCounter = coinCounterFactory();
+
+// Test the function
+const result = coinClosureCounter(120);
+console.log(result);  // Output: [3, 2, 0, 4]
+//// End of GPT coin closure
+
+
 const coin_counter_sync = (val) => {
     const coin_amounts = [];
     coin_amounts.push(Math.floor(val / 25));
@@ -136,7 +181,8 @@ const solutions = {
     cc_2: coin_currying,
     cc_3: coinCounterAustin,
     cc_4: coin_counter_sync,
-    cc_5: coin_counter_recurse
+    cc_5: coin_counter_recurse,
+    cc_6: coin_closure
 }
 
 const test_run = (fn) => {
@@ -147,7 +193,8 @@ const test_run = (fn) => {
         const result = fn(amounts[i]);
         if (Array.isArray(result) && typeof result[0] == 'object') {
             for (let i = 0; i < result.length; ++i) {
-                const value = Object.values(result[i])[1];
+                let value = 0;
+                value = result[i].amount;
                 result[i] = value;
             }
         }
@@ -157,5 +204,5 @@ const test_run = (fn) => {
     }
 }
 
-// Object.keys(solutions).forEach(key => test_run(solutions[key]))
-test_run(solutions["cc_5"]);
+//Object.keys(solutions).forEach(key => test_run(solutions[key]))
+test_run(solutions["cc_6"]);
