@@ -11,32 +11,25 @@ https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
 https://www.geeksforgeeks.org/sieve-of-eratosthenes/
 */
 
-// const sieve = (n) => {
-//     if (n == 2)
-//         return [2];
-//     else if (n < 2)
-//         return [];
+const sieve = (n) => {
+    if (n == 2)
+        return [2];
+    else if (n < 2)
+        return [];
 
-//     const primes = [];
-//     const stack = [2];
-//     let i = 2;
-//     while (i < n) {
-//         for (let i = 0; i < stack.length; i++)
-//             if (stack)
-//     }
-//     for (let i = 2; i < n; i++)
-        
-//     for (let i = 0; i < n; i++)
-//         primes[i] = i
-//     let j = 2;
-//     while (j < n) {
-//         for (let l = primes.length - 1; l > -1; --l)
-//             if (primes[l] % j == 0)
-//                 primes.splice(l, 1);
-//         j++;
-//     }
-//     return primes;
-// }
+    const stack = [2];
+    let i = 3;
+    while (i <= n) {
+        for (let j = 0; j < stack.length; j++)
+            if (i % stack[j] == 0) {
+                i++;
+                continue;
+            }
+        stack.push(i);
+        i++;
+    }
+    return stack;
+}
 
 const sieve_recursive = (n, k = 2, stack = []) => {
     if (k > n)
@@ -76,6 +69,7 @@ const sieve_recursive = (n, k = 2, stack = []) => {
 // }
 
 const findPrimes = (n, primes = [], remainingNums = [...Array(n + 1).keys()].slice(2)) => {
+    
     // Base case, when there are no remaining nums, return array of primes.
     if (remainingNums.length === 0) {
         return primes;
@@ -126,7 +120,7 @@ const primeSift = (n) => {
 const solutions = {
     ps_1: findPrimes,
     ps_4: sieve_recursive,
-    // ps_5: sieve
+    ps_5: sieve
 }
 
 const test_run = (fn) => {
@@ -138,4 +132,4 @@ const test_run = (fn) => {
     }
 }
 
-test_run(solutions["ps_1"]);
+test_run(solutions["ps_5"]);

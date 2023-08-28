@@ -206,3 +206,6 @@ const test_run = (fn) => {
 
 //Object.keys(solutions).forEach(key => test_run(solutions[key]))
 test_run(solutions["cc_6"]);
+
+
+
