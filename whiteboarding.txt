@@ -1,0 +1,25 @@
+----------------------
+Casey Hill: Problem #2
+----------------------
+
+Use a closure to create multiple functions for making various animal noises. For example, it should be possible to do the following:
+
+const lionSound = soundMaker("roar");
+const mouseSound = soundMaker("squeak");
+
+
+const soundMaker = (sound) => {
+    return function (animal) {
+        console.log(`The ${animal} goes ${sound}!`)
+    }
+}
+
+const lionSound = soundMaker("roar");
+const mouseSound = soundMaker("squeak");
+const dogSound = soundMaker("bark");
+const crowSound = soundMaker("cawCaw");
+
+lionSound('lion');
+mouseSound('mouse');
+dogSound('dog');
+crowSound('bird');
