@@ -22,4 +22,27 @@ const crowSound = soundMaker("cawCaw");
 lionSound('lion');
 mouseSound('mouse');
 dogSound('dog');
-crowSound('bird');
+crowSound('crow');
+
+const soundMaker = (animal) => (sound) => `${animal} goes ${sound}`
+const lion = soundMaker("lion")("roar");
+
+const soundMaker = (sound) => sound
+const lionSound = soundMaker("roar")
+lionSound()
+
+------------------------
+Hernan Verar: Problem #3
+------------------------
+
+const nameEnhancer = (title) => {
+    return (sufix) => { 
+        return (name) => {   
+            return `${title} `${name} `${sufix}:
+        }     
+    };
+};
+
+const misterJunior = nameEnhancer("Mister")("Junior");
+
+misterJunior("Hernan") >> Mister Hernan Junior 
