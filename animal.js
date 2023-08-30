@@ -49,3 +49,8 @@ console.log(duck2.eat("fish"));
 console.log(duck2.sleep());
 
 // Every variation works
+
+// Need to test
+// const objects = objectsInitial.map(obj => ({ ...obj, ...commonParams }))
+// do not use ...spread in array.reduce()
+// cost between: const {x, y} = z, z = { x, y: y + 1 } vs z = { ...z, y: y + 1 }
