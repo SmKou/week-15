@@ -1,4 +1,4 @@
-/* Turn strings into URLs
+/* 1: Turn strings into URLs
 Input: "Jasmine Ann Jones"
 Output: "Jasmine%20Ann%20Jones"
 
@@ -49,7 +49,7 @@ console.log("Pr1: non-recursive:", func_1(pr1_test));
 console.log("Pr1: non-recursive", func_2(pr1_test));
 console.log("Pr1: recursive", func_3(pr1_test));
 
-/* Array Deduping
+/* 2: Array Deduping
 Input: [7, 9, "hi", 12, "hi", 7, 53]
 Output: [7, 9, "hi", 12, 53]
 
@@ -87,7 +87,7 @@ console.log("Pr2: recursive", func_5(pr2_test));
 pr2_test = [7, 9, "hi", 12, "hi", 7, 53]
 console.log("Pr2: non-recursive", func_6(pr2_test));
 
-/* Compressing Strings
+/* 3: Compressing Strings
 input: "aaabccdddda"
 output: "3ab2c4da" 
 
@@ -159,7 +159,7 @@ console.log("P3: non-recursive", func_7(p3_test));
 console.log("P3: non-recursive", func_8(p3_test));
 console.log("P3: recursive", func_9(p3_test));
 
-/* Checking for Uniqueness
+/* 4: Checking for Uniqueness
 Input: "hello"
 Output: false
 Input: "copyright"
@@ -170,9 +170,21 @@ non-alphanumeric characters
 empty string
 */
 
-const func_n = str => str.split("").filter((e, ind) => str.indexOf(e) === ind)
+const func_11 = str => str.length == str.split("").filter((e, ind) => str.indexOf(e) === ind).length
 
-const func = str => {
+const func_12 = str => {
     const set = new Set(str.split(""));
     return set.size === str.length
 }
+
+const func_13 = str => {
+    const obj = {};
+    for (let i = 0; i < str.length; ++i)
+        if (obj[str[i]])
+            return false;
+        else
+            obj[str[i]] == 1;
+    return true;
+}
+
+const func_14 = str => str.length == [new Set(str.split(""))].length
